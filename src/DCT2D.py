@@ -1,5 +1,8 @@
 import cv2
 import numpy as np
+import math
+
+import util
 
 
 def dct2d(original):
@@ -48,25 +51,57 @@ def dct2d(original):
 	# ===========end from openCV================================================================
 	
 	# TODO: Precisamos fazer o nosso
-	
-	
-	return dst
+	# Aplicar a dct1d para as linhas
+	# ...
 
-def dct1d():
+
+	# Aplicar a dct1d para as colunas da imagem resultante
+	# ...
+
+
+	# TODO
+	# return dst
+	return gray # nao sei se retorna um ou outro
+
+def dct1d(fileira):
+	'''
+	Aplica DCT-1d para uma fie=leira de pixels
+	
+	ver formula em extras/dct_1d.png
+
+	Parametros:
+		Fileira - numpy array
+	'''
+
+	transformada = fileira # variavel que vai ser retornada (array do mesmo tamanho da entrada)
+	
+	nGrande = len(fileira)  # largura da imagem
 	pi = 3.1416
-	k = None								#indice no array para recuperar o pixel????						
-	nPequeno = 	None						#indice na familia de cossenos????
-	nGrande = None							#largura da imagem????
-	c = None
-	freq = k/(2*nGrande)
-	fase = (k*pi)/(2*nGrande)
-	amplitude = sqrt(2/nGrande) * c * 
-
+	nPequeno = None  # indice na familia de cossenos
 	
-	# if k == 0 :
-	# 	c = sqrt(1/2)
-	# else:
-	# 	c = 1
 
 
+	#k == indice no array para recuperar o pixel????
+	for k in range(len(fileira)):
+		transformada[k] = math.sqrt(2/nGrande)
 
+		freq = (pi*k)/(nGrande)
+		fase = (pi*k)/(2*nGrande)
+
+
+		# c varia dependendo do k
+		c = None
+		if k == 0 :
+			c = math.sqrt(1/2)
+		else:
+			c = 1
+
+
+		# Soma
+		soma = 0
+		for nPequeno in range(nGrande-1):
+			soma += fileira[nPequeno] * math.cos(freq*nPequeno + fase)
+
+		transformada[k]+=soma
+
+	return transformada

@@ -6,6 +6,7 @@ import cv2
 
 # minhas libs
 import DCT2D
+import util
 # .....
 
 def main(image_path):
