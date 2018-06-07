@@ -52,4 +52,21 @@ def dct2d(original):
 	
 	return dst
 
+def dct1d():
+	pi = 3.1416
+	k = None								#indice no array para recuperar o pixel????						
+	nPequeno = 	None						#indice na familia de cossenos????
+	nGrande = None							#largura da imagem????
+	c = None
+	freq = k/(2*nGrande)
+	fase = (k*pi)/(2*nGrande)
+	amplitude = sqrt(2/nGrande) * c * 
+
+	
+	# if k == 0 :
+	# 	c = sqrt(1/2)
+	# else:
+	# 	c = 1
+
+
 
