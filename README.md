@@ -26,6 +26,9 @@ ir para raiz e rodar
 ./run.sh
 ```
 
+## DCT-1D
+![DCT-1D](https://github.com/luizhenriquefbb/CC-PDI-DominioDaFrequencia/extras/dct_1d.png)
+
 ## Grupo
 - Alisson Galiza
 - Aline Araujo
