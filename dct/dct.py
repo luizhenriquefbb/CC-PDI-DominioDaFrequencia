@@ -2,36 +2,39 @@
 
 import argparse
 import cv2
-
 import math
 import numpy as np
 
-def dct(input_matrix):
-    M, N = input_matrix.shape
-    dct_matrix = np.zeros((M,N))
-    dct_matrix2 = np.zeros((M,N))
+def dct1D(vector):
+    N = vector.size
+    X = np.zeros(N)
 
-    sum = 0.0
-    alfa = 0.0
-    offset = 256
+    for k in range(N):
+        alpha = math.sqrt(1/N) if k == 0 else math.sqrt(2/N)
+        sum = 0
+        for n in range(N):
+            sum += vector[n] * math.cos( (math.pi * (2*n+1) * k) / (2*N) )
 
-    for k in range(M):
-        for l in range(N):
-            sum = 0.0
-            for i in range(M):
-                sum += (input_matrix[i][l] + offset) * math.cos( (math.pi * (2*i+1) * k) / (2 * M))
-        alfa = 1 / math.sqrt(M) if k == 0 else math.sqrt(2 / M)
-        dct_matrix[k][l] = (alfa * sum)
+        X[k] = alpha * sum
 
-    for l in range(N):
-        for k in range(M):
-            sum = 0.0
-            for j in range(N):
-                sum += dct_matrix[k][j] * math.cos((math.pi * (2*j+1) * 1) / (2 * N))
-            alfa = 1 / math.sqrt(N) if l == 0 else math.sqrt(2 / N)
-            dct_matrix2[k][l] = (alfa * sum)
+    return X
 
-    return dct_matrix2
+def idct1D(vector):
+    N = vector.size
+    x = np.zeros(N)
+
+    for n in range(N):
+        sum = 0
+        for k in range(N):
+            alpha = math.sqrt(1/N) if k == 0 else math.sqrt(2/N)
+            sum += alpha * vector[k] * math.cos( (math.pi * (2*n+1) * k) / (2*N) )
+        x[n] = sum
+
+    return x
+
+def dct2D(matrix):
+    M, N = matrix.shape
+
 
 def main():
     parser = argparse.ArgumentParser(description='Discrete Cosine Transform')
@@ -43,8 +46,15 @@ def main():
         parser.print_help()
         exit(2)
 
-    input_img = cv2.imread(args.input, cv2.IMREAD_GRAYSCALE)
-    result = dct(input_img)
+    # input_img = cv2.imread(args.input, cv2.IMREAD_GRAYSCALE)
+    # result = dct(input_img)
+
+    input = np.array([3, -4, 2, 1])
+    result = dct1D(input)
+    print("ida:", result)
+
+    result2 = idct1D(result)
+    print("volta:", result2)
 
     cv2.imshow("DCT Result", result.astype(np.uint8))
     cv2.waitKey(0)
