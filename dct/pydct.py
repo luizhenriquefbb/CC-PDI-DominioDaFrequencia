@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from scipy.fftpack import dct, idct
 
-img = cv2.imread("/home/wesnydy/lena256.jpg", cv2.IMREAD_GRAYSCALE)
+img = cv2.imread("/home/wesnydy/Workspace/PDI-DCT/tests/lena/lena256color.jpg", cv2.IMREAD_GRAYSCALE)
 M, N = img.shape
 
 dctmatrix = np.zeros((M,N))

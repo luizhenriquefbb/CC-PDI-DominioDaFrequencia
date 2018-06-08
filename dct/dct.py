@@ -3,47 +3,35 @@
 import argparse
 import cv2
 
-from math import cos, sqrt
-from numpy import zeros
-
-PI = 3.141592
-
-def ck(k):
-    return 1/sqrt(2) if k == 0 else 1
-
-# def summation(matrix, N, k):
-#     sum = 0
-#     for n in range(N-1):
-#         sum += cos( ((PI*k)/(2*N)) * (2*n+1) ) * matrix[k][n]
-#
-#     return sum
-#
-# def dct(input_matrix):
-#     M, N = input_matrix.shape
-#     dct_matrix = zeros((M,N))
-#
-#     for r in range(M):
-#         for c in range(N):
-#             dct_matrix[r][c] = sqrt(2/N) * ck(r) * summation(input_matrix, N, r)
-#
-#     return dct_matrix
-
-def summation(matrix, N, k):
-    sum = 0
-    for n in range(1, N-1):
-        sum += matrix[k][n] * cos(PI*k*n/(N-1))
-
-    return sum
+import math
+import numpy as np
 
 def dct(input_matrix):
     M, N = input_matrix.shape
-    dct_matrix = zeros((M,N))
+    dct_matrix = np.zeros((M,N))
+    dct_matrix2 = np.zeros((M,N))
 
-    for r in range(M):
-        for c in range(N):
-            dct_matrix[r,c] = input_matrix[r, 0] + ((-1)**r) * input_matrix[r, N-1] + 2 * summation(input_matrix, N, r)
+    sum = 0.0
+    alfa = 0.0
+    offset = 256
 
-    return dct_matrix
+    for k in range(M):
+        for l in range(N):
+            sum = 0.0
+            for i in range(M):
+                sum += (input_matrix[i][l] + offset) * math.cos( (math.pi * (2*i+1) * k) / (2 * M))
+        alfa = 1 / math.sqrt(M) if k == 0 else math.sqrt(2 / M)
+        dct_matrix[k][l] = (alfa * sum)
+
+    for l in range(N):
+        for k in range(M):
+            sum = 0.0
+            for j in range(N):
+                sum += dct_matrix[k][j] * math.cos((math.pi * (2*j+1) * 1) / (2 * N))
+            alfa = 1 / math.sqrt(N) if l == 0 else math.sqrt(2 / N)
+            dct_matrix2[k][l] = (alfa * sum)
+
+    return dct_matrix2
 
 def main():
     parser = argparse.ArgumentParser(description='Discrete Cosine Transform')
@@ -58,7 +46,7 @@ def main():
     input_img = cv2.imread(args.input, cv2.IMREAD_GRAYSCALE)
     result = dct(input_img)
 
-    cv2.imshow("DCT Result", result)
+    cv2.imshow("DCT Result", result.astype(np.uint8))
     cv2.waitKey(0)
 
 if __name__ == '__main__':
