@@ -30,7 +30,6 @@ def dct2D(matrix):
     """
 
     M, N = matrix.shape
-    matrix_t = matrix.T
 
     dctmatrix = np.zeros((M,N))
     dctmatrix_t = np.zeros((M,N))
