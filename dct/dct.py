@@ -1,11 +1,16 @@
-#!/usr/bin/env python3
+""" Brief
+Description
+"""
 
-import argparse
 import cv2
 import math
 import numpy as np
 
 def dct1D(vector):
+    """ Brief
+    Description
+    """
+
     N = vector.size
     X = np.zeros(N)
 
@@ -19,45 +24,18 @@ def dct1D(vector):
 
     return X
 
-def idct1D(vector):
-    N = vector.size
-    x = np.zeros(N)
-
-    for n in range(N):
-        sum = 0
-        for k in range(N):
-            alpha = math.sqrt(1/N) if k == 0 else math.sqrt(2/N)
-            sum += alpha * vector[k] * math.cos( (math.pi * (2*n+1) * k) / (2*N) )
-        x[n] = sum
-
-    return x
-
 def dct2D(matrix):
+    """ Brief
+    Description
+    """
+
     M, N = matrix.shape
+    matrix_t = matrix.T
 
+    dctmatrix = np.zeros((M,N))
+    dctmatrix_t = np.zeros((M,N))
 
-def main():
-    parser = argparse.ArgumentParser(description='Discrete Cosine Transform')
-    parser.add_argument('-i', '--input', action='store')
-    parser.add_argument('-o', '--output', action='store')
-    args = parser.parse_args()
+    dctmatrix = np.array([dct1D(matrix[i]) for i in range(M)])
+    dctmatrix_t = np.array([dct1D(dctmatrix.T[i]) for i in range(M)])
 
-    if args.input is None:
-        parser.print_help()
-        exit(2)
-
-    # input_img = cv2.imread(args.input, cv2.IMREAD_GRAYSCALE)
-    # result = dct(input_img)
-
-    input = np.array([3, -4, 2, 1])
-    result = dct1D(input)
-    print("ida:", result)
-
-    result2 = idct1D(result)
-    print("volta:", result2)
-
-    cv2.imshow("DCT Result", result.astype(np.uint8))
-    cv2.waitKey(0)
-
-if __name__ == '__main__':
-    main()
+    return dctmatrix_t.T
