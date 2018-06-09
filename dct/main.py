@@ -13,7 +13,7 @@ def main():
     parser.add_argument('-o', '--output', action='store')
     args = parser.parse_args()
 
-    if args.input is None or args.output:
+    if args.input is None or args.output is None:
         parser.print_help()
         exit(2)
 
@@ -24,6 +24,7 @@ def main():
 
     cv2.imwrite(args.output, dtc2d_ret)
 
+    cv2.imshow("Original", img)
     cv2.imshow("DCT Result", dtc2d_ret.astype(uint8))
     cv2.imshow("IDCT Result", idtc2d_ret.astype(uint8))
     cv2.waitKey(0)

@@ -17,7 +17,7 @@ def idct1D(vector):
     for n in range(N):
         sum = 0
         for k in range(N):
-            alpha = math.sqrt(1/N) if k == 0 else math.sqrt(2/N)
+            alpha = math.sqrt(1.0/N) if k == 0 else math.sqrt(2.0/N)
             sum += alpha * vector[k] * math.cos( (math.pi * (2*n+1) * k) / (2*N) )
         x[n] = sum
 
