@@ -18,12 +18,14 @@ def main():
         parser.print_help()
         exit(2)
 
+    print ("reading image")
     img = cv2.imread(args.input)
     pxlfmt = imghandler.get_pixel_format(img)
 
     cv2.imshow("Original", img)
 
     if pxlfmt == imghandler.YIQ_FMT:
+        print("image in YIQ format")
         grayimg = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
 
         dtc2d_ret = dct.dct2D(grayimg)
@@ -33,15 +35,25 @@ def main():
         cv2.imshow("IDCT Result", idtc2d_ret.astype(np.uint8))
 
     else:
+        print("image in RGB format")
         r, g, b = imghandler.split_channels(img)
 
+        print("starting dct-2d to r")
         r_dtc2d_ret = dct.dct2D(r)
+
+        print("\nstarting dct-2d to g")
         g_dtc2d_ret = dct.dct2D(g)
+
+        print("\nstarting dct-2d to b")
         b_dtc2d_ret = dct.dct2D(b)
+
         cv2.imshow("DCT Result", imghandler.merge_channels(r_dtc2d_ret, g_dtc2d_ret, b_dtc2d_ret))
 
+        print("starting idct-2d to r")
         r_idtc2d_ret = idct.idct2D(r_dtc2d_ret)
+        print("\nstarting idct-2d to g")
         g_idtc2d_ret = idct.idct2D(g_dtc2d_ret)
+        print("\nstarting idct-2d to b")
         b_idtc2d_ret = idct.idct2D(b_dtc2d_ret)
         cv2.imshow("IDCT Result", imghandler.merge_channels(r_idtc2d_ret, g_idtc2d_ret, b_idtc2d_ret))
 

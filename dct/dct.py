@@ -5,6 +5,7 @@ Description
 import cv2
 import math
 import numpy as np
+import progressBar
 
 def dct1D(vector):
 	""" Brief
@@ -34,7 +35,14 @@ def dct2D(matrix):
 	dctmatrix = np.zeros((M,N))
 	dctmatrix_t = np.zeros((M,N))
 	
-	dctmatrix = np.array([dct1D(matrix[i]) for i in range(M)])
+	# dctmatrix = np.array([dct1D(matrix[i]) for i in range(M)])
+
+
+	for i in range(M):
+		progressBar.printProgressBar(i, M)
+		dctmatrix[i] = np.array([dct1D(matrix[i])])
+
+
 	dctmatrix_t = np.array([dct1D(dctmatrix.T[i]) for i in range(M)])
 
 	return dctmatrix_t.T
