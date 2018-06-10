@@ -39,6 +39,9 @@ def main():
         idtc2d_ret = idct.idct2D(dtc2d_ret)
         cv2.imshow("IDCT-2D Result", idtc2d_ret.astype(np.uint8))
 
+        idtc2d_important = idct.idct2D(important)
+        cv2.imshow("IDCT-2D important Result", idtc2d_important.astype(np.uint8))
+
     else:
         print("Image in RGB format")
         r, g, b = ih.split_channels(img)
@@ -66,6 +69,16 @@ def main():
         print("\nstarting IDCT-2D to B")
         b_idtc2d_ret = idct.idct2D(b_dtc2d_ret)
         cv2.imshow("IDCT-2D Result", ih.merge_channels(r_idtc2d_ret, g_idtc2d_ret, b_idtc2d_ret))
+
+
+        # cv2.imshow("idct-important_r", idct.idct2D(important_r))
+        # cv2.imshow("idct-important_g", idct.idct2D(important_g))
+        # cv2.imshow("idct-important_b", idct.idct2D(important_b))
+        
+        cv2.imshow("idct-important_merged", ih.merge_channels(idct.idct2D(important_r),
+                                                         idct.idct2D(important_g), idct.idct2D(important_b)))
+
+
 
     cv2.waitKey(0)
 

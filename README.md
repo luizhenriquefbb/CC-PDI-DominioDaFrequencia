@@ -22,7 +22,7 @@ numpy
 ## Como usar
 go to dct/ folder and type
 ```sh
-python main.py -i [image path] -o [path to save the output]
+python main.py -i [image path] -o [path to save the output] -n [number of pixel to use]
 ```
 
 ## Grupo
