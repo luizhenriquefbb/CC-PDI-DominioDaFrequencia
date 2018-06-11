@@ -32,15 +32,18 @@ def main():
 
         dtc2d_ret = dct.dct2D(grayimg)
         cv2.imshow("DCT-2D Result", dtc2d_ret.astype(np.uint8))
+        cv2.imwrite("DCT2DResult.jpg", dtc2d_ret.astype(np.uint8))
 
         important = ps.selectImportantPixels(dtc2d_ret, n=args.pixelNumber)
         cv2.imshow("Important pixels", important.astype(np.uint8))
+        cv2.imwrite("DCT2DResult.jpg", important.astype(np.uint8))
 
         idtc2d_ret = idct.idct2D(dtc2d_ret)
         cv2.imshow("IDCT-2D Result", idtc2d_ret.astype(np.uint8))
 
         idtc2d_important = idct.idct2D(important)
         cv2.imshow("IDCT-2D important Result", idtc2d_important.astype(np.uint8))
+        # import pdb; pdb.set_trace()
 
     else:
         print("Image in RGB format")

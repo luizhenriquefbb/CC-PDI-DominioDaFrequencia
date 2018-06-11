@@ -37,7 +37,7 @@ def dct2D(matrix):
 
 	# dctmatrix = np.array([dct1D(matrix[i]) for i in range(M)])
 	for i in range(M):
-		progress_bar.printProgressBar(i, M)
+		progress_bar.printProgressBar(i, M-1)
 		dctmatrix[i] = np.array([dct1D(matrix[i])])
 
 	dctmatrix_t = np.array([dct1D(dctmatrix.T[i]) for i in range(M)])

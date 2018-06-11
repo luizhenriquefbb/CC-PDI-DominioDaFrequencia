@@ -20,11 +20,11 @@ def selectImportantPixels(M, n = 1):
     result = np.zeros((L,C))
     
     importantPixels = _getPixelsList(M)[:int(n)]
-    # import pdb; pdb.set_trace()
 
     for pixel in importantPixels:
         result[pixel.x][pixel.y] = pixel.grayScale
 
+    # import pdb; pdb.set_trace()
     
     return result
 
@@ -41,8 +41,20 @@ def _getPixelsList(M):
             pixels.append(_Pixel(i,j,M[i][j]))
 
     # sortedList = sorted(pixels, key=lambda pixel: _getDistanceFromDC(pixel.x,pixel.y), reverse=False)
+    
+    
+    # sortedList = sorted(
+    #     pixels, key=lambda pixel: pixel._getgrayScaleModule(), reverse=True)
+    
+    
     sortedList = sorted(
-        pixels, key=lambda pixel: pixel.grayScale, reverse=True)
+        pixels, key=lambda pixel: pixel._getgrayScaleModule(), reverse=True)
+    # import pdb; pdb.set_trace()
+
+    # for i in sortedList:
+        # i.grayScale = i._getgrayScaleModule()
+
+
     return sortedList
 
 def _getDistanceFromDC(x,y):
@@ -63,3 +75,6 @@ class _Pixel(object):
 
     def __str__(self):
         return "{ "+str(self.x) + str(self.y) + str(self.grayScale) + " } \n"
+
+    def _getgrayScaleModule(self):
+        return self.grayScale if self.grayScale > 0 else self.grayScale * -1
