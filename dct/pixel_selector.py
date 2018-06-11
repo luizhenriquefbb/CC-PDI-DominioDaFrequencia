@@ -5,6 +5,8 @@
 import numpy as np
 from math import sqrt
 
+import img_handler as ih
+
 def selectImportantPixels(M, n = 1):
     '''
     Select important pixels from matrix
@@ -17,17 +19,18 @@ def selectImportantPixels(M, n = 1):
         Matrix with most important pixels
     '''
     L,C = M.shape
-    result = np.zeros((L,C))
-    
-    importantPixels = _getPixelsList(M)[:int(n)]
-    
 
-    for pixel in importantPixels:
-        result[pixel.x][pixel.y] = pixel.grayScale
+    BLOCK_SIZE = 8
+    blocksmatrix = ih.block_shaped(M, (BLOCK_SIZE, BLOCK_SIZE))
 
-    
-    return result
+    important_matrix = np.zeros(blocksmatrix.shape)
 
+    for idx, block in enumerate(blocksmatrix):
+        importantPixels = _getPixelsList(block)[:int(n)]
+        for pixel in importantPixels:
+            important_matrix[idx][pixel.x][pixel.y] = pixel.grayScale
+
+    return ih.unblock_shaped(important_matrix, (L, C))
 
 def _getPixelsList(M):
     '''

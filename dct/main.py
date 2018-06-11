@@ -13,7 +13,7 @@ def main():
     parser = argparse.ArgumentParser(description='Discrete Cosine Transform')
     parser.add_argument('-i', '--input', action='store')
     parser.add_argument('-o', '--output', action='store')
-    parser.add_argument('-n', '--pixelNumber', action='store')
+    parser.add_argument('-n', '--pixelNumber', action='store', type=int, choices=range(0,65))
     args = parser.parse_args()
 
     if args.input is None or args.output is None or args.pixelNumber is None:
@@ -36,7 +36,7 @@ def main():
         important = ps.selectImportantPixels(dtc2d_ret, n=args.pixelNumber)
         cv2.imshow("Important pixels", important.astype(np.uint8))
 
-        idtc2d_ret = idct.idct2D(dtc2d_ret)
+        idtc2d_ret = idct.idct2D(important)
         cv2.imshow("IDCT-2D Result", idtc2d_ret.astype(np.uint8))
 
     else:
@@ -60,11 +60,11 @@ def main():
         cv2.imshow("Important pixels", ih.merge_channels(important_r, important_g, important_b))
 
         print("\nStarting IDCT-2D to R")
-        r_idtc2d_ret = idct.idct2D(r_dtc2d_ret)
+        r_idtc2d_ret = idct.idct2D(important_r)
         print("\nstarting IDCT-2D to G")
-        g_idtc2d_ret = idct.idct2D(g_dtc2d_ret)
+        g_idtc2d_ret = idct.idct2D(important_g)
         print("\nstarting IDCT-2D to B")
-        b_idtc2d_ret = idct.idct2D(b_dtc2d_ret)
+        b_idtc2d_ret = idct.idct2D(important_b)
         cv2.imshow("IDCT-2D Result", ih.merge_channels(r_idtc2d_ret, g_idtc2d_ret, b_idtc2d_ret))
 
     cv2.waitKey(0)
