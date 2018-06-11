@@ -43,9 +43,9 @@ def _getPixelsList(M):
         for j in range(C):
             pixels.append(_Pixel(i,j,M[i][j]))
 
-    sortedList = sorted(pixels, key=lambda pixel: _getDistanceFromDC(pixel.x,pixel.y), reverse=False)
-    # sortedList = sorted(
-    #     pixels, key=lambda pixel: pixel.grayScale, reverse=False)
+    # sortedList = sorted(pixels, key=lambda pixel: _getDistanceFromDC(pixel.x,pixel.y), reverse=False)
+    sortedList = sorted(
+        pixels, key=lambda pixel: pixel.grayScale, reverse=True)
     return sortedList
 
 def _getDistanceFromDC(x,y):
