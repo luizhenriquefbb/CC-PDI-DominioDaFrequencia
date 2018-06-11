@@ -49,3 +49,26 @@ def merge_channels(r_image, g_image, b_image):
             rgb_image[i][j] = [r_image[i][j], g_image[i][j], b_image[i][j]]
 
     return rgb_image
+
+def block_shaped(matrix, block_shape):
+    """ Brief
+    Description
+    """
+
+    rows, _ = matrix.shape
+    blocks = matrix.reshape(rows//block_shape[0], block_shape[0], -1, block_shape[1]) \
+                   .swapaxes(1,2) \
+                   .reshape(-1, block_shape[0], block_shape[1])
+    return blocks
+
+def unblock_shaped(blocks, matrix_shape):
+    """ Brief
+    Description
+    """
+    
+    _, rows, columns = blocks.shape
+    unblocks = (blocks.reshape(matrix_shape[0]//rows, -1, rows, columns) \
+               .swapaxes(1,2) \
+               .reshape(matrix_shape[0], matrix_shape[1]))
+
+    return unblocks

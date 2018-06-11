@@ -5,6 +5,8 @@ Description
 import cv2
 import math
 import numpy as np
+
+import img_handler as ih
 import progress_bar
 
 def idct1D(vector):
@@ -31,14 +33,14 @@ def idct2D(matrix):
 
     M, N = matrix.shape
 
-    dctmatrix = np.zeros((M,N))
-    dctmatrix_t = np.zeros((M,N))
+    BLOCK_SIZE = 8
+    blocksmatrix = ih.block_shaped(matrix, (BLOCK_SIZE, BLOCK_SIZE))
 
-    # dctmatrix = np.array([idct1D(matrix[i]) for i in range(M)])
-    for i in range(M):
-        progress_bar.printProgressBar(i, M)
-        dctmatrix[i] = np.array([idct1D(matrix[i])])
+    dctmatrix = np.zeros(blocksmatrix.shape)
 
-    dctmatrix_t = np.array([idct1D(dctmatrix.T[i]) for i in range(M)])
+    for idx, block in enumerate(blocksmatrix):
+        dct = np.array([idct1D(block[i]) for i in range(BLOCK_SIZE)])
+        dct_t = np.array([idct1D(dct.T[j]) for j in range(BLOCK_SIZE)])
+        dctmatrix[idx] = dct_t.T
 
-    return dctmatrix_t.T
+    return ih.unblock_shaped(dctmatrix, (M, N))
